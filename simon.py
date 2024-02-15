@@ -8,7 +8,7 @@ from typing import NamedTuple
 import random
 
 root = Tk()
-root.title("Simon Game")
+root.title("Simon")
 
 
 class Color(NamedTuple):
@@ -29,9 +29,8 @@ class Simon:
         self.score: int = 0
         self.timer_count: int = 0
         self.is_watching: int = True
-        self.gameover: int = False
         self.game_state: list[int] = []
-        self.temp_state: list[int] = []
+        self.presses: int = 0
 
         self.score_label = Label(root, text="0", font=("Courier", 25))
         self.score_label.grid(padx=10, pady=2, row=0, columnspan=2)
@@ -53,9 +52,27 @@ class Simon:
             self.buttons.append(button)
             button.grid(padx=5, pady=10, row=index // 2 + 2, column=index % 2)
 
-    def change_color(self):
+    def press(self, button_index: int = 0):
+        if (
+            len(self.game_state) > 0
+            and not self.is_watching
+            and self.game_state[self.presses] != button_index
+        ):
+            root.destroy()
+            return
+
+        self.presses += 1
+        if self.presses == len(self.game_state):
+            self.presses = 0
+            self.score += 1
+            self.score_label.config(text=self.score)
+            self.is_watching = True
+            root.after(800, self.add_color)
+
+    def add_color(self) -> None:
+        self.game_state.append(random.randint(0, 3))
         for color in self.game_state:
-            root.after(self.timer_count + 20, lambda: None)
+            root.after(self.timer_count, lambda: None)
             root.after(
                 self.timer_count + 300,
                 partial(self.buttons[color].config, bg=COLORS[color].name),
@@ -65,33 +82,12 @@ class Simon:
                 partial(self.buttons[color].config, bg=COLORS[color].shade),
             )
 
-            self.timer_count += 220
-
-    def press(self, button_index: int = 0):
-        count = len(self.game_state)
-        if count > 0 and not self.is_watching:
-            self.temp_state.append(button_index)
-            self.check(count - 1, button_index)
-            count -= 1
-        elif not self.gameover:
-            self.score += 1
-            self.score_label.config(text=self.score)
-            self.is_watching = True
-            self.temp_state.clear()
-            self.first()
-
-    def check(self, index: int = 0, button: int = 0):
-        if self.game_state[index] != button:
-            self.gameover = True
-            self.how_to_label.configure(text="GAMEOVER")
-
-    def first(self):
-        if self.is_watching and not self.gameover:
-            self.game_state.append(random.randint(0, 3))
-            root.after(1000, self.change_color)
-            self.is_watching = False
+            self.timer_count += 800
+        self.timer_count = 0
+        self.is_watching = False
 
 
 if __name__ == "__main__":
-    Simon().first()
+    game = Simon()
+    root.after(1000, game.add_color)
     root.mainloop()
