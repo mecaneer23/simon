@@ -2,10 +2,10 @@
 A Tkinter implementation of the classic `Simon` game
 """
 
-from tkinter import Tk, Label, Button
-from functools import partial
-from typing import NamedTuple
 import random
+from functools import partial
+from tkinter import Button, Label, Tk
+from typing import NamedTuple
 
 root = Tk()
 root.title("Simon")
