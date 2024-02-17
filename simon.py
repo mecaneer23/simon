@@ -4,7 +4,7 @@ A Tkinter implementation of the classic `Simon` game
 
 import random
 from functools import partial
-from tkinter import Button, Label, Tk
+from tkinter import Button, IntVar, Label, Tk
 from typing import NamedTuple
 
 root = Tk()
@@ -30,13 +30,14 @@ class Simon:
     """The classic Simon game"""
 
     def __init__(self):
-        self.score: int = 0
+        self.score: IntVar = IntVar()
         self.is_watching: int = True
         self.game_state: list[int] = []
         self.presses: int = 0
 
-        self.score_label = Label(root, text="0", font=("Courier", 25))
-        self.score_label.grid(padx=10, pady=2, row=0, columnspan=2)
+        Label(root, textvariable=self.score, font=("Courier", 25)).grid(
+            padx=10, pady=2, row=0, columnspan=2
+        )
 
         Label(root, text="WATCH first, PLAY after").grid(
             padx=10, pady=2, row=1, columnspan=2
@@ -82,8 +83,7 @@ class Simon:
         self.presses += 1
         if self.presses == len(self.game_state):
             self.presses = 0
-            self.score += 1
-            self.score_label.config(text=self.score)
+            self.score.set(self.score.get() + 1)
             self.is_watching = True
             root.after(800, self.add_color)
 
