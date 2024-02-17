@@ -56,7 +56,7 @@ class Simon:
             self.buttons.append(button)
             button.grid(padx=5, pady=10, row=index // 2 + 2, column=index % 2)
 
-    def press(self, button_index: int = 0):
+    def press(self, button_index: int):
         """
         Call this function every time a button is pressed.
         `button_index` should refer to the button index of
