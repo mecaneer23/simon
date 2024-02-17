@@ -12,6 +12,8 @@ root.title("Simon")
 
 
 class Color(NamedTuple):
+    """Represent a color in terms of a name and hexadecimal shade"""
+
     name: str
     shade: str
 
@@ -25,9 +27,10 @@ COLORS: list[Color] = [
 
 
 class Simon:
+    """The classic Simon game"""
+
     def __init__(self):
         self.score: int = 0
-        self.timer_count: int = 0
         self.is_watching: int = True
         self.game_state: list[int] = []
         self.presses: int = 0
@@ -35,8 +38,9 @@ class Simon:
         self.score_label = Label(root, text="0", font=("Courier", 25))
         self.score_label.grid(padx=10, pady=2, row=0, columnspan=2)
 
-        self.how_to_label = Label(root, text="WATCH first, PLAY after")
-        self.how_to_label.grid(padx=10, pady=2, row=1, columnspan=2)
+        Label(root, text="WATCH first, PLAY after").grid(
+            padx=10, pady=2, row=1, columnspan=2
+        )
 
         self.buttons: list[Button] = []
         for index, color in enumerate(COLORS):
@@ -71,19 +75,19 @@ class Simon:
 
     def add_color(self) -> None:
         self.game_state.append(random.randint(0, 3))
+        timer_count = 0
         for color in self.game_state:
-            root.after(self.timer_count, lambda: None)
+            root.after(timer_count, lambda: None)
             root.after(
-                self.timer_count + 300,
+                timer_count + 300,
                 partial(self.buttons[color].config, bg=COLORS[color].name),
             )
             root.after(
-                self.timer_count + 500,
+                timer_count + 500,
                 partial(self.buttons[color].config, bg=COLORS[color].shade),
             )
 
-            self.timer_count += 800
-        self.timer_count = 0
+            timer_count += 800
         self.is_watching = False
 
 
