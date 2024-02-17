@@ -57,6 +57,20 @@ class Simon:
             button.grid(padx=5, pady=10, row=index // 2 + 2, column=index % 2)
 
     def press(self, button_index: int = 0):
+        """
+        Call this function every time a button is pressed.
+        `button_index` should refer to the button index of
+        the pressed button in self.buttons.
+
+        Return early if the press isn't correct.
+
+        Increment the `presses` counter.
+
+        If the amount of presses is equal to the number of
+        presses in the current game state, increment the
+        score and add another color to the current game
+        state.
+        """
         if (
             len(self.game_state) > 0
             and not self.is_watching
@@ -74,6 +88,10 @@ class Simon:
             root.after(800, self.add_color)
 
     def add_color(self) -> None:
+        """
+        Add an additional color to the game state. Then,
+        blink all of the colors in the state one at a time.
+        """
         self.game_state.append(random.randint(0, 3))
         timer_count = 0
         for color in self.game_state:
