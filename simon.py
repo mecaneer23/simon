@@ -110,6 +110,5 @@ class Simon:
 
 
 if __name__ == "__main__":
-    game = Simon()
-    root.after(1000, game.add_color)
+    root.after(1000, Simon().add_color)
     root.mainloop()
