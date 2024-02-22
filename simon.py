@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 A Tkinter implementation of the classic `Simon` game
 """
@@ -77,6 +79,7 @@ class Simon:
             and not self.is_watching
             and self.game_state[self.presses] != button_index
         ):
+            print(f"Score: {self.score.get()}")
             root.destroy()
             return
 
