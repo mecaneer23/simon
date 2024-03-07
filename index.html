@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simon</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .buttons-container {
+            display: grid;
+            grid-template-columns: auto auto;
+            width: 30vw;
+        }
+
+        .buttons-container div {
+            width: 15vw;
+            height: 15vw;
+        }
+
+        .scoreboard {
+            display: flex;
+        }
+
+        #score {
+            margin-left: 1vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scoreboard">
+        <h1>Score:</h1>
+        <h1 id="score">0</h1>
+    </div>
+    <div class="buttons-container">
+        <div id="0" onclick="press(this.id)"></div>
+        <div id="1" onclick="press(this.id)"></div>
+        <div id="2" onclick="press(this.id)"></div>
+        <div id="3" onclick="press(this.id)"></div>
+    </div>
+    <script src="simon.js"></script>
+</body>
+
+</html>
